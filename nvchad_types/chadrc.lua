@@ -8,18 +8,33 @@ local chadrc = {
   ui = {
     --- List of highlights group to add.
     --- Should be highlights that is not a part of base46 defeault integration
+    --- Example
+    --- ```lua
+    ---     hl_add = {
+    ---       ["HLName"] = {fg = "red"},
+    ---     }
+    --- ```
     --- @see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
     --- @type HLTable
     hl_add = nil,
     --- List of highlight groups that is part of base46 default integration that you want to change
+    --- ```lua
+    ---     hl_overrde = {
+    ---       ["HLName"] = {fg = "red"},
+    ---     }
+    --- ```
     --- @see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
     --- @type HLTable
     hl_override = nil,
     --- @see https://github.com/NvChad/base46/tree/master/lua/base46/themes for the colors of each theme
-    --- @type {[ThemeName]: Base46Table}
+    --- @type table<ThemeName, Base46Table>
     changed_themes = {},
     --- A table with 2 strings, denoting the themes to toggle between.
     --- One of the 2 strings must be the value of `theme` field
+    --- Example:
+    --- ```lua
+    ---     theme_toggle = { "onedark", "one_light", },
+    --- ```
     --- @type {[1]: string, [2]: string}
     theme_toggle = { "onedark", "one_light" },
     --- Enable transparency or not
