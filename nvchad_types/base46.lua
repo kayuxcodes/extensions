@@ -7,15 +7,15 @@
 ---@field sp string
 ---@field blend number integer between 0 and 100, level of opacity
 ---@field bold boolean bolded text or not
----@field standout boolean
----@field underline boolean
----@field undercurl boolean
----@field underdouble boolean
+---@field standout boolean decorations
+---@field underline boolean decorations
+---@field undercurl boolean decorations
+---@field underdouble boolean decorations
 ---@field underdotted boolean
 ---@field underdashed boolean
 ---@field strikethrough boolean
----@field italic boolean
----@field reverse boolean
+---@field italic boolean italicized text
+---@field reverse boolean 
 ---@field nocombine boolean
 ---@field link string name of another highlight group to link to, see |hi-link|
 ---@field default boolean Don't override existing definition
@@ -24,7 +24,7 @@
 ---@field cterm string comma-separated list of cterm opts. For more information, check `:h highlight-args`
 
 ---@class Base46HLGroups : APISetHighlightOpts
----@field fg string|Base46Colors
+---@field fg string|Base46Colors Color of foreground
 ---@field bg string|Base46Colors color of background
 ---@field sp string|Base46Colors
 
@@ -90,7 +90,7 @@
 ---@field polish_hl HLTable
 ---@field base_16 Base16Table
 ---@field base_30 Base30Table
----@field bg '"dark"'|'"light"'
+---@field type '"dark"'|'"light"'
 
 ---@class Base16Table
 ---@field base00 string

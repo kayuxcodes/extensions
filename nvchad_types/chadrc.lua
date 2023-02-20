@@ -1,151 +1,119 @@
 ---@meta
 
 ---@class ChadrcConfig
-local chadrc = {
-  --- UI related configuration
-  --- e.g. colorschemes, statusline themes, cmp themes, dashboard, some LSP ui related
-  --- @class UIConfig
-  ui = {
-    --- List of highlights group to add.
-    --- Should be highlights that is not a part of base46 defeault integration
-    --- Example
-    --- ```lua
-    ---     hl_add = {
-    ---       ["HLName"] = {fg = "red"},
-    ---     }
-    --- ```
-    --- @see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
-    --- @type HLTable
-    hl_add = nil,
-    --- List of highlight groups that is part of base46 default integration that you want to change
-    --- ```lua
-    ---     hl_overrde = {
-    ---       ["HLName"] = {fg = "red"},
-    ---     }
-    --- ```
-    --- @see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
-    --- @type HLTable
-    hl_override = nil,
-    --- @see https://github.com/NvChad/base46/tree/master/lua/base46/themes for the colors of each theme
-    --- @type table<ThemeName, Base46Table>
-    changed_themes = {},
-    --- A table with 2 strings, denoting the themes to toggle between.
-    --- One of the 2 strings must be the value of `theme` field
-    --- Example:
-    --- ```lua
-    ---     theme_toggle = { "onedark", "one_light", },
-    --- ```
-    --- @type {[1]: string, [2]: string}
-    theme_toggle = { "onedark", "one_light" },
-    --- Enable transparency or not
-    --- @type boolean
-    transparency = nil,
-    --- Theme to use.
-    --- You can try out the theme by executing `:Telescope themes`
-    --- @see https://github.com/NvChad/base46/tree/master/lua/base46/themes
-    --- @type string
-    theme = nil,
+---@field   ui UIConfig
+--- A table of mappings
+---     - `disabled` is used to define the keymaps that you don't want to keep
+---     - Other keys are the list of default tables that is with NvChad
+---     - You can define your custom table, such as the example below
+--- ```lua
+--- M.mappings = {
+---   ["some table name"] = {
+---     -- plugin = true, -- will make this table load only when you specify it to
+---     ["some vim mode"] = {
+---       ["some lhs"] = {
+---         "rhs of a keymap", -- this must be here. This can also be a Lua function
+---         "Description for the keymap",
+---         opts = {}, -- Other opts for the keymaps
+---       }
+---     }
+---   }
+--- }
+--- ```
+---see lua/core/mappings.lua for more information
+---@field   mappings MappingsTable
+--- The module to be imported and merged with the default plugin settings
+---@field   plugins string
+--- Lazy.nvim setup opts
+--- Check `:h lazy.nvim-configuration` for the exact options
+---@field   lazy_nvim LazyConfig
 
-    --- @class NvCmpConfig
-    cmp = {
-			--- Whether to add colors to icons in nvim-cmp popup menu
-			--- @type boolean
-			icons = nil,
-			--- Whether to also have the lsp kind highlighted with the icons as well or not
-			--- @type boolean
-			lspkind_text = nil,
-			--- nvim-cmp style
-			--- @type '"default"'|'"flat_light"'|'"flat_dark"'|'"atom"'|'"atom_colored"'
-			style = nil,
-			--- Only has effects when the style is `default`
-			--- @type string|Base30Colors
-			border_color = nil,
-      --- Whether to have more vibrant color for the currently selected entry in the popup menu
-      --- @type "colored"|"simple"
-      selected_item_bg = nil,
-    },
-    --- @class NvStatuslineConfig
-    statusline = {
-			--- statusline theme
-			--- @type '"default"'|'"vscode"'|'"vscode_colored"'|'"minimal"'
-			theme = nil,
-			--- Separator style for NvChad Statusline
-      ---     - Only when the *theme* is `minimal`, "round" or "block" will be having effect
-			--- @type '"default"'|'"round"'|'"block"'
-			separator_style = nil,
+--- UI related configuration
+--- e.g. colorschemes, statusline themes, cmp themes, dashboard, some LSP ui related
+---@class UIConfig
+--- List of highlights group to add.
+--- Should be highlights that is not a part of base46 defeault integration
+--- Example
+--- ```lua
+---     hl_add = {
+---       ["HLName"] = {fg = "red"},
+---     }
+--- ```
+---see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
+---@field hl_add HLTable
+--- List of highlight groups that is part of base46 default integration that you want to change
+--- ```lua
+---     hl_overrde = {
+---       ["HLName"] = {fg = "red"},
+---     }
+--- ```
+---see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
+---@field hl_override HLTable
+---see https://github.com/NvChad/base46/tree/master/lua/base46/themes for the colors of each theme
+---@field changed_themes table<ThemeName, Base46Table>
+--- A table with 2 strings, denoting the themes to toggle between.
+--- One of the 2 strings must be the value of `theme` field
+--- Example:
+--- ```lua
+---     theme_toggle = { "onedark", "one_light", },
+--- ```
+---@field theme_toggle {[1]: string, [2]: string}
+--- Enable transparency or not
+---@field transparency boolean
+--- Theme to use.
+--- You can try out the theme by executing `:Telescope themes`
+--- @see https://github.com/NvChad/base46/tree/master/lua/base46/themes
+---@field theme string
+---@field cmp NvCmpConfig
+---@field statusline NvStatusLineConfig
+---@field tabufline NvTablineConfig
+---@field nvdash NvDashboardConfig
+---@field cheatsheet NvCheatsheetConfig
 
-      --- List of modules that you overirde
-      --- Check https://github.com/NvChad/ui/blob/main/lua/nvchad_ui/statusline/modules.lua for the list of modules
-      --- @type fun(): table
-      overriden_modules = nil,
-    },
-    --- @class NvTablineConfig
-    tabufline = {
-      --- Whether to use/load tabufline or not
-      --- @type boolean
-      enabled = nil,
-      --- If false, load tabufline on startup
-      --- If true, load tabufline when there is at least 2 buffers opened
-      --- @type boolean
-      lazyload = nil,
-      --- List of modules that you overirde
-      --- Check https://github.com/NvChad/ui/blob/main/lua/nvchad_ui/tabufline/modules.lua for the list of modules
-      --- @type fun(): table
-      overriden_modules = nil,
-    },
-    --- @class NvDashboardConfig
-    nvdash = {
-      --- Whether to open dashboard on opening nvim 
-      --- @type boolean
-      load_on_startup = false,
-      --- Your ascii art
-      --- Each string is one line
-      --- @type string[],
-      header = nil,
-      --- List of buttons to show on the dashboard
-      --- @type NvDashButtonConfig[]
-      buttons = nil,
-    },
-    --- @class NvCheatsheetConfig
-    cheatsheet = {
-      --- Cheatsheet theme
-      --- @type '"grid"'|'"simple"'
-      theme = nil,
-    },
-  },
-  
-  --- A table of mappings
-  ---     - `disabled` is used to define the keymaps that you don't want to keep
-  ---     - Other keys are the list of default tables that is with NvChad
-  ---     - You can define your custom table, such as the example below
-  --- ```lua
-  --- M.mappings = {
-  ---   ["some table name"] = {
-  ---     -- plugin = true, -- will make this table load only when you specify it to
-  ---     ["some vim mode"] = {
-  ---       ["some lhs"] = {
-  ---         "rhs of a keymap", -- this must be here. This can also be a Lua function
-  ---         "Description for the keymap",
-  ---         opts = {}, -- Other opts for the keymaps
-  ---       }
-  ---     }
-  ---   }
-  --- }
-  --- ```
-  --- @see core.mappings
-  --- @type MappingsTable
-  mappings = nil,
+---@class NvCmpConfig
+--- Whether to add colors to icons in nvim-cmp popup menu
+---@field icons boolean
+--- Whether to also have the lsp kind highlighted with the icons as well or not
+---@field lspkind_text boolean
+--- nvim-cmp style
+---@field style '"default"'|'"flat_light"'|'"flat_dark"'|'"atom"'|'"atom_colored"'
+--- Only has effects when the style is `default`
+---@field border_color string|Base30Colors
+--- Whether to have more vibrant color for the currently selected entry in the popup menu
+---@field selected_item_bg "colored"|"simple"
 
-  --- The module to be imported and merged with the default plugin settings
-  --- @type string
-  plugins = "",
+---@class NvStatusLineConfig
+--- statusline theme
+---@field theme '"default"'|'"vscode"'|'"vscode_colored"'|'"minimal"'
+--- Separator style for NvChad Statusline
+---     - Only when the *theme* is `minimal`, "round" or "block" will be having effect
+---@field separator_style '"default"'|'"round"'|'"block"'
+--- List of modules that you overirde
+--- Check https://github.com/NvChad/ui/blob/main/lua/nvchad_ui/statusline/modules.lua for the list of modules
+---@field overriden_modules fun(): table
 
-  --- Lazy.nvim setup opts
-  --- Check `:h lazy.nvim-configuration` for the exact options
-  --- @type table
-  lazy_nvim = {},
-}
+---@class NvTabLineConfig
+--- Whether to use/load tabufline or not
+---@field enabled boolean
+--- If false, load tabufline on startup
+--- If true, load tabufline when there is at least 2 buffers opened
+---@field lazyload boolean
+--- List of modules that you overirde
+--- Check https://github.com/NvChad/ui/blob/main/lua/nvchad_ui/tabufline/modules.lua for the list of modules
+---@field overriden_modules fun(): table
 
+---@class NvDashboardConfig
+--- Whether to open dashboard on opening nvim 
+---@field load_on_startup boolean
+--- Your ascii art
+--- Each string is one line
+---@field header string[],
+--- List of buttons to show on the dashboard
+---@field buttons NvDashButtonConfig[]
+
+---@class NvCheatsheetConfig
+--- Cheatsheet theme
+---@field theme '"grid"'|'"simple"'
 
 ---@class NvDashButtonConfig
 ---@field [1] string Description for the button
