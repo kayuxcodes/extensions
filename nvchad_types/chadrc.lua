@@ -50,7 +50,7 @@
 ---see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
 ---@field hl_override HLTable
 ---see https://github.com/NvChad/base46/tree/master/lua/base46/themes for the colors of each theme
----@field changed_themes table<ThemeName, Base46Table>
+---@field changed_themes table<ThemeName, ThemeTable>
 --- A table with 2 strings, denoting the themes to toggle between.
 --- One of the 2 strings must be the value of `theme` field
 --- Example:
