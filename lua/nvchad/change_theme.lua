@@ -1,4 +1,4 @@
-local utils = require('nvchad')
+local utils = require "nvchad"
 
 local get_example_chadrc = function()
   local chadrc_path = require("nvchad.utils.config").custom.default_chadrc_example_path
@@ -14,7 +14,7 @@ local get_example_chadrc = function()
   return data
 end
 
-M.ensure_file_exists = function(file_path, default_content)
+local ensure_file_exists = function(file_path, default_content)
   -- store in data variable
   local data = utils.file("r", file_path)
 
@@ -39,7 +39,6 @@ M.ensure_file_exists = function(file_path, default_content)
 end
 
 return function(current_theme, new_theme)
-  local misc = require "nvchad.utils.misc"
   local config = require "nvchad.utils.config"
 
   if current_theme == nil or new_theme == nil then
@@ -51,7 +50,7 @@ return function(current_theme, new_theme)
     return
   end
 
-  local result = misc.ensure_file_exists(config.custom.default_chadrc_path, get_example_chadrc())
+  local result = ensure_file_exists(config.custom.default_chadrc_path, get_example_chadrc())
 
   if not result then
     print "Error: Could not set a default theme. Please set it manually in your 'chadrc.lua'."
