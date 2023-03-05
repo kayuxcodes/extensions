@@ -1,15 +1,6 @@
 M = {}
 
 M.add_failed = { { "Adding ", "WarningMsg" }, { " <FILE_PATH> " }, { " to the staging area failed!", "WarningMsg" } }
-M.already_on_selected_snapshot_branch =
-  { { "You are already on the selected snapshot branch (", "Title" }, { "<SNAP_NAME>" }, { ").", "Title" } }
-M.already_on_selected_update_branch =
-  { { "You are already on the selected update branch (", "Title" }, { "<SNAP_NAME>" }, { ").", "Title" } }
-M.already_on_snapshot_branch = {
-  { "You are already on a snapshot branch (", "WarningMsg" },
-  { "<SNAP_NAME>" },
-  { "). You cannot create a snapshot of a snapshot.", "WarningMsg" },
-}
 M.analyzing_commits = { { "Analyzing commits...", "String" } }
 M.analyzing_commits_done_breaking_changes = { { "Analyzing commits... Done", "String" } }
 M.analyzing_commits_done_no_breaking_changes = { { "No breaking changes in commit list - Analyzed", "Title" } }
@@ -19,20 +10,7 @@ M.applying_git_stash_failed = {
   { "<BRANCH_NAME>" },
   { " failed! Remove all merge conflicts to apply the stash.", "WarningMsg" },
 }
-M.beta_disclaimer = {
-  {
-    'IMPORTANT DISCLAIMER BEFORE USE:\n\nThe NvChadSnapshot feature is still in BETA. Use this feature with caution as it might still contain some bugs. Snapshots are stored in git branches. Do not manually switch between Snapshot branches, always use "NvChadSnapshotCheckout". Should your custom folder at any point "get lost", use the "git stash apply" command to restore it. NvChad will always keep the last 4 versions of your custom folder in the Git Stash when creating new Snapshots or switching from the update branch to a Snapshot to ensure that you will not lose any data. If you encounter any bugs or have feature requests please create an issue in the main NvChad repo and mention @LeonHeidelbach! If you like this feature, you can also let us know by commenting on the pinned issue for this BETA release! <3',
-    "WarningMsg",
-  },
-}
-M.branch_already_exists = {
-  { "A Snapshot with the name ", "WarningMsg" },
-  { "<BRANCH_NAME>" },
-  {
-    " already exists! Would you like to [o]verwirte this snapshot, use another [<name>] or [c]ancel? [<name>/o/C]",
-    "WarningMsg",
-  },
-}
+
 M.branch_delete_failed = { { "Deleting branch ", "WarningMsg" }, { "<BRANCH_NAME>" }, { " failed!", "WarningMsg" } }
 M.branch_deleted = { { "Branch ", "WarningMsg" }, { "<BRANCH_NAME>" }, { " deleted succesfully!\n", "WarningMsg" } }
 M.branch_failed = { { "Branch action ", "WarningMsg" }, { "<BRANCH_ACTION>" }, { " failed!", "WarningMsg" } }
@@ -44,14 +22,6 @@ M.breaking_changes_found = {
   { ":\n", "Title" },
 }
 M.cancelled_action = { { "Action ", "Title" }, { "<ACTION>" }, { " cancelled!", "Title" } }
-M.cannot_delete_current_snapshot =
-  { { "Error: You cannot delete a snapshot that is currently in use!\n\n", "ErrorMsg" } }
-M.cannot_update_snapshot = {
-  {
-    'Error: You cannot update while using a NvChadSnapshot! Use "NvChadSnapshotCheckout" to return to the update branch and try again.',
-    "ErrorMsg",
-  },
-}
 M.chadrc_file_not_created = {
   { "Error: Could not create ", "WarningMsg" },
   { "<FILE_PATH>" },
@@ -85,7 +55,6 @@ M.diverged_branches = {
 }
 M.get_author_identity_failed = { { "Error: Could not get author identity.", "ErrorMsg" } }
 M.get_initial_commit_hash_failed = { { "Error: Could not get initial commit hash.", "ErrorMsg" } }
-M.invalid_input = { { "Invalid input! Please enter a valid snapshot index.", "WarningMsg" } }
 M.invalid_inputs = { { "Invalid inputs: ", "WarningMsg" } }
 M.modifications_detected = {
   { "Warning\n  Modification to repo files detected.\n\n  Updater will run", "WarningMsg" },
@@ -119,13 +88,6 @@ M.new_commits_summary = {
   { " since the last update:\n", "Title" },
 }
 M.no_modifications_detected = { { "No conflicting changes outside of the custom folder, ready to update.", "Title" } }
-M.no_snapshots_deleted = { { "No snapshots were deleted!", "WarningMsg" } }
-M.no_snapshots_found = {
-  { "No snapshots found! Use ", "WarningMsg" },
-  { "NvChadSnapshotCreate" },
-  { " to create your first snapshot.", "WarningMsg" },
-}
-M.no_snapshots_selected = { { "No snapshots selected!" } }
 M.not_a_git_dir =
   { { "Error: ", "ErrorMsg" }, { "<CONFIG_PATH>", "ErrorMsg" }, { " is not a valid git directory.\n", "ErrorMsg" } }
 M.remote_head_changes_fetch_failed = { { "Error: Could not fetch remote changes.", "ErrorMsg" } }
@@ -147,26 +109,6 @@ M.reset_remote_head_success =
 M.reset_remote_head_success_status =
   { { "Reset to remote HEAD successful!\n\n", "Title" }, { "<RESET_STATUS>", "String" }, { "\n", "String" } }
 M.restore_failed = { { "Restore failed!", "WarningMsg" } }
-M.select_snapshot_to_checkout =
-  { { "Select a snapshot that you would like to checkout or switch back to the   update branch:\n", "WarningMsg" } }
-M.select_snapshot_to_checkout_enter_index =
-  { { "\nEnter the index of the snapshot that you would like to checkout or [c]ancel [<number>/C]:", "WarningMsg" } }
-M.select_snapshot_to_delete = { { "Select the snapshot(s) that you would like to delete:\n", "WarningMsg" } }
-M.select_snapshot_to_delete_enter_index =
-  { { "\nEnter the indices of the snapshots separated by space or [c]ancel [<number_list>/C]:", "WarningMsg" } }
-M.snapshot_compressing_branch = { { "Compressing snapshot...", "WarningMsg" } }
-M.snapshot_creating_branch = { { "Creating snapshot branch -> ", "WarningMsg" }, { "<BRANCH_NAME>" } }
-M.snapshot_enter_name = { { "Enter the name of the snapshot you want to create or cancel [<name>/C]:", "WarningMsg" } }
-M.snapshot_stay_or_return = {
-  { "Would you like to [u]se the snapshot branch (", "WarningMsg" },
-  { "<BRANCH_NAME>" },
-  { ") or [r]eturn to the update branch (", "WarningMsg" },
-  { "<UPDATE_BRANCH>" },
-  { ")? [u/R]", "WarningMsg" },
-}
-M.snapshot_successfully_created =
-  { { "Snapshot ", "Title" }, { "<SNAP_NAME>" }, { " has been created successfully!", "Title" } }
-M.snapshot_successfully_deleted = { { "The following snapshots have been successfully deleted: ", "WarningMsg" } }
 M.squash_failed = { { "Error: Could not squash commits.", "ErrorMsg" } }
 M.stash_failed = { { "Error: Could not complete stash operation.", "ErrorMsg" } }
 M.stashing_custom_dir =
@@ -187,11 +129,5 @@ M.update_failed = { { "\nError: NvChad Update failed.", "ErrorMsg" } }
 M.update_failed_changes_restored =
   { { "Error: NvChad Update failed.\n\n", "ErrorMsg" }, { "Local changes were restored." } }
 M.update_success = { { "\nNvChad succesfully updated.\n", "String" } }
-M.wait_for_rollback_to_complete = {
-  {
-    'Packer will now start rolling back your custom plugins. This will take several seconds. Please wait for the completion notification and restart your editor. Do not run "PackerSync" while using a NvChadSnapshot!',
-    "WarningMsg",
-  },
-}
 
 return M

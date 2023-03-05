@@ -19,10 +19,11 @@ local function theme_switcher(opts)
   end
 
   local local_utils = require "nvchad"
-  local reload_theme = local_utils.reload_theme
+  local reload_theme = require "nvchad.reload_theme"
 
   -- get a table of available themes
   local themes = local_utils.list_themes()
+
   if next(themes) ~= nil then
     -- save this to use it for later to restore if theme not changed
     local current_theme = vim.g.nvchad_theme
@@ -103,9 +104,13 @@ local function theme_switcher(opts)
         if change then
           -- ask for confirmation to set as default theme
           local ans = string.lower(vim.fn.input("Set " .. new_theme .. " as default theme ? [y/N] ")) == "y"
-          local_utils.clear_cmdline()
+
+          vim.defer_fn(function()
+            vim.cmd "echo"
+          end, 0)
+
           if ans then
-            local_utils.change_theme(current_theme, final_theme)
+            require "nvchad.change_theme"(current_theme, final_theme)
           else
             -- will be used in restoring nvchad theme var
             final_theme = current_theme

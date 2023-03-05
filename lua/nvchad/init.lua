@@ -1,18 +1,6 @@
 local M = {}
 local fn = vim.fn
 
--- Edit user config file, based on the assumption it exists in the config as
--- theme = "theme name"
--- 1st arg as current theme, 2nd as new theme
-M.change_theme = require "nvchad.change_theme"
-
--- clear command line from lua
-M.clear_cmdline = function()
-  vim.defer_fn(function()
-    vim.cmd "echo"
-  end, 0)
-end
-
 -- wrapper to use vim.api.nvim_echo
 -- table of {string, highlight}
 -- e.g echo({{"Hello", "Title"}, {"World"}})
@@ -98,23 +86,6 @@ M.list_themes = function()
 
   return default_themes
 end
-
--- reload themes without restarting vim
--- if no theme name given then reload the current theme
-
-M.reload_theme = require "nvchad.reload_theme"
-
--- update nvchad
-M.update_nvchad = require "nvchad.updater.update"
-
--- create snapshot
-M.snap_create = require "nvchad.updater.snap_create"
-
--- checkout snapshot
-M.snap_checkout = require "nvchad.updater.snap_checkout"
-
--- delete snapshot
-M.snap_delete = require "nvchad.updater.snap_delete"
 
 M.write_data = function(old_data, new_data)
   local file_fn = require("nvchad").file
