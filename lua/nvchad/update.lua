@@ -1,8 +1,9 @@
 dofile(vim.g.base46_cache .. "nvchad_updater")
 
 local api = vim.api
-local cmd = vim.cmd
-local fn = vim.fn
+-- local cmd = vim.cmd
+-- local fn = vim.fn
+local uv = vim.loop
 
 -- used to make each line have equal widths
 local function add_whiteSpaces(tb)
@@ -29,7 +30,7 @@ local function add_whiteSpaces(tb)
   return tb
 end
 
-local output = { " ", " 󰓂 Fetching updates ", "", "", "" }
+local content = { " ", " 󰓂 Fetching updates ", "", "", "" }
 local spinners = { "", "󰪞", "󰪟", "󰪠", "󰪢", "󰪣", "󰪤", "󰪥" }
 
 return function()
@@ -39,9 +40,10 @@ return function()
   vim.api.nvim_set_current_buf(buf)
   vim.opt_local.number = false
 
-  output[4] = spinners[1]
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
+  content[4] = spinners[1] -- initial spinner icon
 
+  -- set lines & highlight updater title
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
   local nvUpdater = api.nvim_create_namespace "nvUpdater"
   api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitle", 1, 0, -1)
 
@@ -53,55 +55,69 @@ return function()
   -- use a timer
   local timer = vim.loop.new_timer()
 
-  timer:start(0, 50, function()
+  timer:start(0, 100, function()
     index = index + 1
+
+    if #git_outputs ~= 0 then
+      timer:stop()
+    end
 
     vim.schedule(function()
       if #git_outputs == 0 then
+        -- restart spinner animation
         if index == #spinners then
           index = 1
         end
 
-        output[4] = spinners[index]
-        vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
+        content[4] = spinners[index]
+        vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
         api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitle", 1, 0, -1)
       end
     end)
   end)
 
-  local config_path = fn.stdpath "config"
+  -----  get git pull output, use vim.loop.spawn
+  local handle
+  local stdio = uv.new_pipe()
 
-  -- commands
-  local pullcmd = "git -C " .. config_path .. " pull"
-  local finalcmd = pullcmd
+  local function on_exit()
+    uv.read_stop(stdio)
+    uv.close(stdio)
+    uv.close(handle)
 
-  -- branches
-  local nvchad_opts = require("core.utils").load_config()
-  local chadrc_branch = nvchad_opts.options.nvChad.update_branch
-  local local_branch = fn.systemlist("git -C " .. config_path .. " rev-parse --abbrev-ref HEAD")[1]
+    -- draw the output on buffer
+    add_whiteSpaces(git_outputs)
 
-  -- update local repo branch if it doesnt match to that of in chadrc
-  if local_branch ~= chadrc_branch then
-    finalcmd = "git -C " .. config_path .. " switch " .. chadrc_branch
+    content[4] = "" -- indiciate finish icon
+
+    -- append gitpull table to content table
+    for i = 1, #git_outputs, 1 do
+      content[#content + 1] = git_outputs[i]
+    end
+
+    -- set lines & highlights
+    -- using vim.schedule because we cant use set_lines in callback
+    vim.schedule(function()
+      vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
+      api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitle", 1, 0, -1)
+
+      for i = 5, #content do
+        api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterGitPull", i, 0, -1)
+      end
+    end)
   end
 
-  -- capture cmd output & display on buffer
-  vim.defer_fn(function()
-    git_outputs = vim.fn.systemlist(finalcmd)
-    add_whiteSpaces(git_outputs) -- so it looks like a padding
+  local opts = {
+    args = { "pull" },
+    cwd = vim.fn.stdpath "config",
+    stdio = { nil, stdio, nil },
+  }
 
-    output[4] = "" -- indiciate finish icon
+  handle = uv.spawn("git", opts, on_exit)
 
-    for i = 1, #git_outputs, 1 do
-      output[#output + 1] = git_outputs[i]
+  uv.read_start(stdio, function(_, data)
+    if data then
+      git_outputs[#git_outputs + 1] = data:gsub("\n", "")
     end
-
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
-
-    api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitle", 1, 0, -1)
-
-    for i = 5, #output do
-      api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterGitPull", i, 0, -1)
-    end
-  end, 1000)
+  end)
 end
