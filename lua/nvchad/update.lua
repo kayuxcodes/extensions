@@ -30,8 +30,12 @@ local function add_whiteSpaces(tb)
   return tb
 end
 
-local content = { " ", " 󰓂 Fetching updates ", "", "", "" }
 local spinners = { "", "󰪞", "󰪟", "󰪠", "󰪢", "󰪣", "󰪤", "󰪥" }
+-- local spinners = { "󰸶", "󰸸", "󰸷", "󰸴", "󰸵", "󰸳" }
+-- local spinners = { "", "", "", "󰺕", "", "" }
+local content = { " ", " ", "" }
+
+local header = " 󰓂 Fetching updates "
 
 return function()
   -- create buffer
@@ -39,8 +43,6 @@ return function()
 
   vim.api.nvim_set_current_buf(buf)
   vim.opt_local.number = false
-
-  content[4] = spinners[1] -- initial spinner icon
 
   -- set lines & highlight updater title
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
@@ -69,9 +71,10 @@ return function()
           index = 1
         end
 
-        content[4] = spinners[index]
+        content[2] = header .. " " .. spinners[index] .. "  "
         vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
-        api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitle", 1, 0, -1)
+        api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitle", 1, 0, #header)
+        api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterProgress", 1, #header, -1)
       end
     end)
   end)
@@ -88,7 +91,7 @@ return function()
     -- draw the output on buffer
     add_whiteSpaces(git_outputs)
 
-    content[4] = "" -- indiciate finish icon
+    content[2] = " 󰓂 Fetching updates    "
 
     -- append gitpull table to content table
     for i = 1, #git_outputs, 1 do
@@ -99,9 +102,12 @@ return function()
     -- using vim.schedule because we cant use set_lines in callback
     vim.schedule(function()
       vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
-      api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitle", 1, 0, -1)
 
-      for i = 5, #content do
+      -- highlight title & finish icon
+      api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitle", 1, 0, #header)
+      api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterProgress", 1, #header, -1)
+
+      for i = 2, #content do
         api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterGitPull", i, 0, -1)
       end
     end)
