@@ -12,8 +12,10 @@ return function(current_theme, new_theme)
   current_theme = current_theme:gsub("%p", "%%%0")
   new_theme = new_theme:gsub("%p", "%%%0")
 
-  local old_theme_txt = "theme = .?" .. current_theme .. ".?"
-  local new_theme_txt = 'theme = "' .. new_theme .. '"'
+  current_theme = "theme = .?" .. current_theme .. ".?"
+  new_theme = 'theme = "' .. new_theme .. '"'
 
-  require("nvchad").write_data(old_theme_txt, new_theme_txt)
+  local chadrc = vim.fn.stdpath "config" .. "/lua/custom/" .. "chadrc.lua"
+
+  require("nvchad").replace_word(chadrc, current_theme, new_theme)
 end
