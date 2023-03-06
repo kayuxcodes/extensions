@@ -69,8 +69,14 @@ return function()
   -- create buffer
   local buf = vim.api.nvim_create_buf(false, true)
 
+  vim.cmd "sp"
   vim.api.nvim_set_current_buf(buf)
+  vim.opt_local.buflisted = false
   vim.opt_local.number = false
+  vim.opt_local.list = false
+  vim.opt_local.relativenumber = false
+  vim.opt_local.wrap = false
+  vim.opt_local.cul = false
 
   -- set lines & highlight updater title
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
