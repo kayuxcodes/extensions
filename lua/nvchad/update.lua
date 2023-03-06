@@ -24,12 +24,17 @@ local function add_whiteSpaces(tb)
 
   -- now fill whitespaces
   for i, value in ipairs(tb) do
+    local empty_line = string.match(value, "^%s*$")
+    local icon = empty_line and "    " or "   "
     local whitespaces_len = len - #value
-    tb[i] = "  " .. value .. string.rep(" ", whitespaces_len) .. "  "
+    local str_has_colon = string.find(value, ":")
+
+    -- remove : after commit hash too
+    tb[i] = icon .. value:gsub(":", "") .. string.rep(" ", whitespaces_len + (str_has_colon and 3 or 2))
   end
 
   -- 4 = 2 spaces on left & right
-  tb[#tb + 1] = string.rep(" ", len + 4)
+  tb[#tb + 1] = string.rep(" ", len + 6)
 
   return tb
 end
@@ -39,7 +44,7 @@ local spinners = { "", "󰪞", "󰪟", "󰪠", "󰪢", "󰪣", "󰪤", "󰪥"
 -- local spinners = { "", "", "", "󰺕", "", "" }
 local content = { " ", " ", "" }
 
-local header = " 󰓂 Fetching updates "
+local header = " 󰓂 Checking updates "
 
 return function()
   -- create buffer
@@ -54,7 +59,6 @@ return function()
   api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitle", 1, 0, -1)
 
   local git_outputs = {} -- some value gets assigned here after 3-4 seconds
-
   local index = 1
 
   -- update spinner icon until git_outputs is empty
@@ -109,7 +113,7 @@ return function()
       -- draw the output on buffer
       add_whiteSpaces(git_outputs)
 
-      content[2] = " 󰓂 Fetching updates    "
+      content[2] = " 󰓂 Checking updates    "
 
       -- append gitpull table to content table
       for i = 1, #git_outputs, 1 do
@@ -119,14 +123,15 @@ return function()
       vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
 
       -- highlight title & finish icon
-      api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitle", 1, 0, #header)
-      api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterProgress", 1, #header, -1)
+      api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitleDONE", 1, 0, #header)
+      api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterProgressDONE", 1, #header, -1)
 
       for i = 2, #content do
         api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterGitPull", i, 0, -1)
+        api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterCommits", i, 2, 13) -- 7 = length of git commit hash aliases + 1 :
       end
 
-      vim.fn.system { "git", "-C", nvim_config, "pull" }
+      vim.fn.jobstart({ "git", "pull" }, { silent = true, cwd = nvim_config })
     end)
   end
 
