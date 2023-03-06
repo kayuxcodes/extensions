@@ -26,7 +26,7 @@ local uv = vim.loop
 -- vim.fn.jobwait({ job_id }, -1)
 
 -- used to make each line have equal widths
-local function add_whiteSpaces(tb)
+local function add_whiteSpaces(tb, is_error_text)
   -- first get largest line's length
   local len = 0
 
@@ -41,12 +41,15 @@ local function add_whiteSpaces(tb)
   -- now fill whitespaces
   for i, value in ipairs(tb) do
     local empty_line = string.match(value, "^%s*$")
-    local icon = empty_line and "    " or "   "
+    local icon_type = is_error_text and "  " or " "
+    local icon = empty_line and "    " or "  " .. icon_type
     local whitespaces_len = len - #value
     local str_has_colon = string.find(value, ":")
 
     -- remove : after commit hash too
-    tb[i] = icon .. value:gsub(":", "") .. string.rep(" ", whitespaces_len + (str_has_colon and 3 or 2))
+    tb[i] = icon
+      .. value:gsub(":", "")
+      .. string.rep(" ", whitespaces_len + (((str_has_colon and not is_error_text) and 3) or 2))
   end
 
   -- 4 = 2 spaces on left & right
@@ -60,7 +63,7 @@ local spinners = { "", "󰪞", "󰪟", "󰪠", "󰪢", "󰪣", "󰪤", "󰪥"
 -- local spinners = { "", "", "", "󰺕", "", "" }
 local content = { " ", " ", "" }
 
-local header = " 󰓂 Checking updates "
+local header = " 󰓂 Update status "
 
 return function()
   -- create buffer
@@ -105,31 +108,39 @@ return function()
 
   -----  get git pull output, use vim.loop.spawn
   local handle
-  local stdio = uv.new_pipe()
+  local stdout = uv.new_pipe()
+  local stderr = uv.new_pipe()
+
+  local git_fetch_err = false
 
   local function on_exit()
-    uv.read_stop(stdio)
-    uv.close(stdio)
+    uv.read_stop(stdout)
+    uv.close(stdout)
     uv.close(handle)
 
     -- set lines & highlights
     -- using vim.schedule because we cant use set_lines & systemlist in callback
     vim.schedule(function()
-      -- git log --format="format:%h: %s"  HEAD..origin/somebranch
-      local head_hash = vim.fn.systemlist("git -C " .. nvim_config .. " rev-parse HEAD")
+      if not git_fetch_err then
+        -- git log --format="format:%h: %s"  HEAD..origin/somebranch
+        local head_hash = vim.fn.systemlist("git -C " .. nvim_config .. " rev-parse HEAD")
 
-      git_outputs = vim.fn.systemlist(
-        "git -C " .. nvim_config .. ' log --format="format:%h: %s" ' .. head_hash[1] .. "..origin/" .. config_branch
-      )
+        git_outputs = vim.fn.systemlist(
+          "git -C " .. nvim_config .. ' log --format="format:%h: %s" ' .. head_hash[1] .. "..origin/" .. config_branch
+        )
 
-      if #git_outputs == 0 then
-        git_outputs = { "Already updated!" }
+        if #git_outputs == 0 then
+          git_outputs = { "Already updated!" }
+        end
       end
 
       -- draw the output on buffer
-      add_whiteSpaces(git_outputs)
+      add_whiteSpaces(git_outputs, git_fetch_err)
 
-      content[2] = " 󰓂 Checking updates    "
+      local success_update = " 󰓂 Update status    "
+      local failed_update = " 󰓂 Update status  󰚌 "
+
+      content[2] = git_fetch_err and failed_update or success_update
 
       -- append gitpull table to content table
       for i = 1, #git_outputs, 1 do
@@ -138,13 +149,19 @@ return function()
 
       vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
 
+      local title_hl = "nvUpdaterTitle" .. (git_fetch_err and "FAIL" or "DONE")
+      local progress_hl = "nvUpdaterProgress" .. (git_fetch_err and "FAIL" or "DONE")
+
       -- highlight title & finish icon
-      api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitleDONE", 1, 0, #header)
-      api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterProgressDONE", 1, #header, -1)
+      api.nvim_buf_add_highlight(buf, nvUpdater, title_hl, 1, 0, #header)
+      api.nvim_buf_add_highlight(buf, nvUpdater, progress_hl, 1, #header, -1)
 
       for i = 2, #content do
         api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterGitPull", i, 0, -1)
-        api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterCommits", i, 2, 13) -- 7 = length of git commit hash aliases + 1 :
+
+        if not git_fetch_err then
+          api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterCommits", i, 2, 13) -- 7 = length of git commit hash aliases + 1 :
+        end
       end
 
       vim.fn.jobstart({ "git", "pull" }, { silent = true, cwd = nvim_config })
@@ -154,13 +171,20 @@ return function()
   local opts = {
     args = { "fetch" },
     cwd = nvim_config,
-    stdio = { nil, stdio, nil },
+    stdio = { nil, stdout, stderr },
   }
 
   handle = uv.spawn("git", opts, on_exit)
 
-  uv.read_start(stdio, function(_, data)
+  uv.read_start(stdout, function(_, data)
     if data then
+      git_outputs[#git_outputs + 1] = data:gsub("\n", "")
+    end
+  end)
+
+  uv.read_start(stderr, function(_, data)
+    if data then
+      git_fetch_err = true
       git_outputs[#git_outputs + 1] = data:gsub("\n", "")
     end
   end)
