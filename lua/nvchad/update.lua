@@ -2,12 +2,28 @@ dofile(vim.g.base46_cache .. "nvchad_updater")
 
 local nvim_config = vim.fn.stdpath "config"
 local chadrc_config = require("core.utils").load_config()
-local branch = chadrc_config.options.nvChad.update_branch
+local config_branch = chadrc_config.options.nvChad.update_branch
 
 local api = vim.api
--- local cmd = vim.cmd
--- local fn = vim.fn
 local uv = vim.loop
+
+-- on new releases the branch has to be changed
+-- local local_branch
+--
+-- local job_id = vim.fn.jobstart({ "git", "branch", "--show-current" }, {
+--   cwd = nvim_config,
+--   on_stdout = function(_, data)
+--     local_branch = data[1]
+--   end,
+--   stdout_buffered = true,
+--   on_exit = function()
+--     if config_branch ~= local_branch then
+--       vim.fn.system { "git", "-C", nvim_config, "switch", config_branch }
+--     end
+--   end,
+-- })
+--
+-- vim.fn.jobwait({ job_id }, -1)
 
 -- used to make each line have equal widths
 local function add_whiteSpaces(tb)
@@ -103,7 +119,7 @@ return function()
       local head_hash = vim.fn.systemlist("git -C " .. nvim_config .. " rev-parse HEAD")
 
       git_outputs = vim.fn.systemlist(
-        "git -C " .. nvim_config .. ' log --format="format:%h: %s" ' .. head_hash[1] .. "..origin/" .. branch
+        "git -C " .. nvim_config .. ' log --format="format:%h: %s" ' .. head_hash[1] .. "..origin/" .. config_branch
       )
 
       if #git_outputs == 0 then
