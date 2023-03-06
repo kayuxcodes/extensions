@@ -1,5 +1,9 @@
 dofile(vim.g.base46_cache .. "nvchad_updater")
 
+local nvim_config = vim.fn.stdpath "config"
+local chadrc_config = require("core.utils").load_config()
+local branch = chadrc_config.options.nvChad.update_branch
+
 local api = vim.api
 -- local cmd = vim.cmd
 -- local fn = vim.fn
@@ -88,19 +92,30 @@ return function()
     uv.close(stdio)
     uv.close(handle)
 
-    -- draw the output on buffer
-    add_whiteSpaces(git_outputs)
-
-    content[2] = " 󰓂 Fetching updates    "
-
-    -- append gitpull table to content table
-    for i = 1, #git_outputs, 1 do
-      content[#content + 1] = git_outputs[i]
-    end
-
     -- set lines & highlights
-    -- using vim.schedule because we cant use set_lines in callback
+    -- using vim.schedule because we cant use set_lines & systemlist in callback
     vim.schedule(function()
+      -- git log --format="format:%h: %s"  HEAD..origin/somebranch
+      local head_hash = vim.fn.systemlist("git -C " .. nvim_config .. " rev-parse HEAD")
+
+      git_outputs = vim.fn.systemlist(
+        "git -C " .. nvim_config .. ' log --format="format:%h: %s" ' .. head_hash[1] .. "..origin/" .. branch
+      )
+
+      if #git_outputs == 0 then
+        git_outputs = { "Already updated!" }
+      end
+
+      -- draw the output on buffer
+      add_whiteSpaces(git_outputs)
+
+      content[2] = " 󰓂 Fetching updates    "
+
+      -- append gitpull table to content table
+      for i = 1, #git_outputs, 1 do
+        content[#content + 1] = git_outputs[i]
+      end
+
       vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
 
       -- highlight title & finish icon
@@ -110,12 +125,14 @@ return function()
       for i = 2, #content do
         api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterGitPull", i, 0, -1)
       end
+
+      vim.fn.system { "git", "-C", nvim_config, "pull" }
     end)
   end
 
   local opts = {
-    args = { "pull" },
-    cwd = vim.fn.stdpath "config",
+    args = { "fetch" },
+    cwd = nvim_config,
     stdio = { nil, stdio, nil },
   }
 
