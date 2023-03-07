@@ -6,7 +6,7 @@ local conf = require("telescope.config").values
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
 
-local function theme_switcher()
+local function switcher()
   local bufnr = vim.api.nvim_get_current_buf()
   local bufname = vim.api.nvim_buf_get_name(bufnr)
 
@@ -54,5 +54,5 @@ local function theme_switcher()
 end
 
 return require("telescope").register_extension {
-  exports = { themes = theme_switcher },
+  exports = { themes = switcher },
 }

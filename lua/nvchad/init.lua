@@ -4,11 +4,11 @@ local fn = vim.fn
 M.list_themes = function()
   local default_themes = vim.fn.readdir(vim.fn.stdpath "data" .. "/lazy/base46/lua/base46/themes")
 
-  local dirState = vim.loop.fs_stat(fn.stdpath "config" .. "/lua/custom/themes")
+  local custom_themes = vim.loop.fs_stat(fn.stdpath "config" .. "/lua/custom/themes")
 
-  if dirState and dirState.type == "directory" then
-    local user_themes = fn.readdir(fn.stdpath "config" .. "/lua/custom/themes")
-    default_themes = vim.tbl_deep_extend("force", default_themes, user_themes)
+  if custom_themes and custom_themes.type == "directory" then
+    local themes_tb = fn.readdir(fn.stdpath "config" .. "/lua/custom/themes")
+    default_themes = vim.tbl_deep_extend("force", default_themes, themes_tb)
   end
 
   for index, theme in ipairs(default_themes) do
