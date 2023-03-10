@@ -65,6 +65,7 @@
 --- @see https://github.com/NvChad/base46/tree/master/lua/base46/themes
 ---@field theme string
 ---@field cmp NvCmpConfig
+---@field telescope NvTelescopeConfig
 ---@field statusline NvStatusLineConfig
 ---@field tabufline NvTablineConfig
 ---@field nvdash NvDashboardConfig
@@ -81,6 +82,10 @@
 ---@field border_color string|Base30Colors
 --- Whether to have more vibrant color for the currently selected entry in the popup menu
 ---@field selected_item_bg "colored"|"simple"
+
+---@class NvTelescopeConfig
+--- Telescope style
+---@field style '"borderless"'|'"bordered"'
 
 ---@class NvStatusLineConfig
 --- statusline theme
