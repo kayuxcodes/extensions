@@ -42,9 +42,8 @@ local function switcher()
         actions.close(prompt_bufnr)
 
         ------------ save theme to chadrc ----------------
-        local chadrc_file = vim.fn.stdpath "config" .. "/lua/custom/" .. "chadrc.lua"
         local current_theme = require("core.utils").load_config().ui.theme
-        require("nvchad").replace_word(chadrc_file, current_theme, action_state.get_selected_entry()[1])
+        require("nvchad").replace_word(current_theme, action_state.get_selected_entry()[1])
       end)
       return true
     end,
