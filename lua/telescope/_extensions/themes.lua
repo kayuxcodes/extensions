@@ -6,6 +6,12 @@ local conf = require("telescope.config").values
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
 
+local function reload_theme(name)
+  vim.g.nvchad_theme = name
+  require("base46").load_all_highlights()
+  vim.api.nvim_exec_autocmds("User", { pattern = "NvChadThemeReload" })
+end
+
 local function switcher()
   local bufnr = vim.api.nvim_get_current_buf()
   local bufname = vim.api.nvim_buf_get_name(bufnr)
@@ -21,10 +27,7 @@ local function switcher()
       local ft = require("plenary.filetype").detect(bufname) or "diff"
       require("telescope.previewers.utils").highlighter(self.state.bufnr, ft)
 
-      ----------- reload theme -------------
-      vim.g.nvchad_theme = entry.value
-      require("base46").load_all_highlights()
-      vim.api.nvim_exec_autocmds("User", { pattern = "NvChadThemeReload" })
+      reload_theme(entry.value)
     end,
   }
 
@@ -37,7 +40,17 @@ local function switcher()
     },
     sorter = conf.generic_sorter(),
 
-    attach_mappings = function(prompt_bufnr, _)
+    attach_mappings = function(prompt_bufnr, map)
+      map("i", "<C-n>", function()
+        actions.move_selection_next(prompt_bufnr)
+        reload_theme(action_state.get_selected_entry()[1])
+      end)
+
+      map("i", "<C-p>", function()
+        actions.move_selection_previous(prompt_bufnr)
+        reload_theme(action_state.get_selected_entry()[1])
+      end)
+
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
 

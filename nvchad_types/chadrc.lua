@@ -20,7 +20,7 @@
 ---   }
 --- }
 --- ```
---- see lua/core/mappings.lua for more information
+---see lua/core/mappings.lua for more information
 ---@field   mappings MappingsTable
 --- The module to be imported and merged with the default plugin settings
 ---@field   plugins string
@@ -39,7 +39,7 @@
 ---       ["HLName"] = {fg = "red"},
 ---     }
 --- ```
---- see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
+---see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
 ---@field hl_add HLTable
 --- List of highlight groups that is part of base46 default integration that you want to change
 --- ```lua
@@ -47,9 +47,9 @@
 ---       ["HLName"] = {fg = "red"},
 ---     }
 --- ```
---- see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
+---see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
 ---@field hl_override HLTable
---- see https://github.com/NvChad/base46/tree/master/lua/base46/themes for the colors of each theme
+---see https://github.com/NvChad/base46/tree/master/lua/base46/themes for the colors of each theme
 ---@field changed_themes table<ThemeName, ThemeTable>
 --- A table with 2 strings, denoting the themes to toggle between.
 --- One of the 2 strings must be the value of `theme` field
@@ -62,17 +62,16 @@
 ---@field transparency boolean
 --- Theme to use.
 --- You can try out the theme by executing `:Telescope themes`
---- see https://github.com/NvChad/base46/tree/master/lua/base46/themes
+--- @see https://github.com/NvChad/base46/tree/master/lua/base46/themes
 ---@field theme string
 ---@field cmp NvCmpConfig
 ---@field telescope NvTelescopeConfig
 ---@field statusline NvStatusLineConfig
----@field tabufline NvTabLineConfig
+---@field tabufline NvTablineConfig
 ---@field nvdash NvDashboardConfig
 ---@field cheatsheet NvCheatsheetConfig
 ---@field lsp NvLspConfig
 
---- Options for stylings of nvim-cmp 
 ---@class NvCmpConfig
 --- Whether to add colors to icons in nvim-cmp popup menu
 ---@field icons boolean
@@ -99,7 +98,6 @@
 --- Check https://github.com/NvChad/ui/blob/main/lua/nvchad_ui/statusline/modules.lua for the list of modules
 ---@field overriden_modules fun(): table
 
---- Options for NvChad Tabufline
 ---@class NvTabLineConfig
 --- Whether to use/load tabufline or not
 ---@field enabled boolean
