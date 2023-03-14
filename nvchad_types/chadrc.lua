@@ -70,6 +70,7 @@
 ---@field tabufline NvTablineConfig
 ---@field nvdash NvDashboardConfig
 ---@field cheatsheet NvCheatsheetConfig
+---@field lsp NvLspConfig
 
 ---@class NvCmpConfig
 --- Whether to add colors to icons in nvim-cmp popup menu
@@ -124,6 +125,14 @@
 ---@field [1] string Description for the button
 ---@field [2] string sequence of keys to press to trigger the keybind
 ---@field [3] string|fun() A Vim Command/A Lua function to be triggered when pressing the keybind/pressing enter on the line with the description on the dashboard
+
+---Options for NvChad/ui lsp configuration
+---@class NvLspConfig 
+---@field signature NvLspSignatureConfig Opts for showing function signatures as you type
+
+---@class NvLspSignatureConfig
+---@field disabled boolean Whether to disable this feature
+---@field silent boolean Whether to hide `No signature help available` message from appearing
 
 ---@alias MappingsTable DefaultMappingsTable | table<string, KeymapsTable>
 
