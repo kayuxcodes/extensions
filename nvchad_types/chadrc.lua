@@ -2,25 +2,6 @@
 
 ---@class ChadrcConfig
 ---@field   ui UIConfig
---- A table of mappings
----     - `disabled` is used to define the keymaps that you don't want to keep
----     - Other keys are the list of default tables that is with NvChad
----     - You can define your custom table, such as the example below
---- ```lua
---- M.mappings = {
----   ["some table name"] = {
----     -- plugin = true, -- will make this table load only when you specify it to
----     ["some vim mode"] = {
----       ["some lhs"] = {
----         "rhs of a keymap", -- this must be here. This can also be a Lua function
----         "Description for the keymap",
----         opts = {}, -- Other opts for the keymaps
----       }
----     }
----   }
---- }
---- ```
---- see lua/core/mappings.lua for more information
 ---@field   mappings MappingsTable
 --- The module to be imported and merged with the default plugin settings
 ---@field   plugins string
@@ -136,6 +117,25 @@
 ---@field disabled boolean Whether to disable this feature
 ---@field silent boolean Whether to hide `No signature help available` message from appearing
 
+--- A table of mappings
+---     - `disabled` is used to define the keymaps that you don't want to keep
+---     - Other keys are the list of default tables that is with NvChad
+---     - You can define your custom table, such as the example below
+--- ```lua
+--- M.mappings = {
+---   ["some table name"] = {
+---     -- plugin = true, -- will make this table load only when you specify it to
+---     ["some vim mode"] = {
+---       ["some lhs"] = {
+---         "rhs of a keymap", -- this must be here. This can also be a Lua function
+---         "Description for the keymap",
+---         opts = {}, -- Other opts for the keymaps
+---       }
+---     }
+---   }
+--- }
+--- ```
+--- see lua/core/mappings.lua for more information
 ---@alias MappingsTable DefaultMappingsTable | table<string, KeymapsTable>
 
 --- @class DefaultMappingsTable
