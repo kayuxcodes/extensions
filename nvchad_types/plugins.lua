@@ -36,6 +36,7 @@
 --- Config for a plugin
 --- Read the docs of that plugin for more info. 
 --- If `opts` is a function, then the second argument `opts` is the default config defined by NvChad
+--- If `opts` is defined, then `config` will be true unless defined by user
 ---@field opts table|fun(_:LazyPlugin, opts:table):table?
 --- List of plugin names or plugin specs that should be loaded when the plugin loads. 
 --- If you only specify the name, it will be installed and loaded with other(s) dependent plugins
