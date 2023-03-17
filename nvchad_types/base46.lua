@@ -4,7 +4,7 @@
 ---@class APISetHighlightOpts
 ---@field fg string Color of foreground
 ---@field bg string color of background
----@field sp string
+---@field sp string Read `:h guisp`
 ---@field blend number integer between 0 and 100, level of opacity
 ---@field bold boolean bolded text or not
 ---@field standout boolean decorations
@@ -24,9 +24,18 @@
 ---@field cterm string comma-separated list of cterm opts. For more information, check `:h highlight-args`
 
 ---@class Base46HLGroups : APISetHighlightOpts
----@field fg string|Base46Colors Color of foreground
----@field bg string|Base46Colors color of background
----@field sp string|Base46Colors
+--- Color of foreground
+--- if fg is "NONE", remove the foreground color
+---@field fg string|Base46Colors|'"NONE"'
+--- Color of background
+--- if fg is "NONE", remove the background color
+---@field bg string|Base46Colors|'"NONE"' color of background
+--- Used for underline colors
+--- - If sp is `NONE`, use transparent color for special
+--- - If sp is `bg` or `background`, use normal background color
+--- - If sp is `fg` or `foreground`, use normal foreground color
+--- See :h guisp for more information 
+---@field sp string|Base46Colors|'"NONE"'|'"bg"'|'"background"'|'"fg"'|'"foreground"'
 
 ---@alias HLTable table<string, Base46HLGroups>
 
