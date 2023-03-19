@@ -1,0 +1,119 @@
+---@meta
+
+---@alias ThemeName
+---| '"yoru"'
+---| '"wombat"'
+---| '"vscode_dark"'
+---| '"tundra"'
+---| '"tomorrow_night"'
+---| '"tokyonight"'
+---| '"tokyodark"'
+---| '"sweetpastel"'
+---| '"solarized_dark"'
+---| '"rxyhn"'
+---| '"rosepine"'
+---| '"radium"'
+---| '"penumbra_light"'
+---| '"penumbra_dark"'
+---| '"pastelbeans"'
+---| '"pastelDark"'
+---| '"palenight"'
+---| '"oxocarbon"'
+---| '"onenord_light"'
+---| '"onenord"'
+---| '"onedark"'
+---| '"one_light"'
+---| '"oceanic-next"'
+---| '"oceanic-light"'
+---| '"nord"'
+---| '"nightowl"'
+---| '"nightlamp"'
+---| '"nightfox"'
+---| '"mountain"'
+---| '"monochrome"'
+---| '"monekai"'
+---| '"melange"'
+---| '"kanagawa"'
+---| '"jellybeans"'
+---| '"gruvchad"'
+---| '"gruvbox_light"'
+---| '"gruvbox"'
+---| '"github_light"'
+---| '"github_dark"'
+---| '"gatekeeper"'
+---| '"falcon"'
+---| '"everforest_light"'
+---| '"everforest"'
+---| '"everblush"'
+---| '"doomchad"'
+---| '"decay"'
+---| '"dark_horizon"'
+---| '"chocolate"'
+---| '"chadtain"'
+---| '"chadracula"'
+---| '"catppuccin"'
+---| '"blossom_light"'
+---| '"bearded-arc"'
+---| '"ayu_light"'
+---| '"ayu_dark"'
+---| '"ashes"'
+---| '"aquarium"'
+
+---@class ChangedTheme
+---@field aquarium ThemeTable
+---@field ashes ThemeTable
+---@field ayu_dark ThemeTable
+---@field ayu_light ThemeTable
+---@field bearded-arc ThemeTable
+---@field blossom_light ThemeTable
+---@field catppuccin ThemeTable
+---@field chadracula ThemeTable
+---@field chadtain ThemeTable
+---@field chocolate ThemeTable
+---@field dark_horizon ThemeTable
+---@field decay ThemeTable
+---@field doomchad ThemeTable
+---@field everblush ThemeTable
+---@field everforest ThemeTable
+---@field everforest_light ThemeTable
+---@field falcon ThemeTable
+---@field gatekeeper ThemeTable
+---@field github_dark ThemeTable
+---@field github_light ThemeTable
+---@field gruvbox ThemeTable
+---@field gruvbox_light ThemeTable
+---@field gruvchad ThemeTable
+---@field jellybeans ThemeTable
+---@field kanagawa ThemeTable
+---@field melange ThemeTable
+---@field monekai ThemeTable
+---@field monochrome ThemeTable
+---@field mountain ThemeTable
+---@field nightfox ThemeTable
+---@field nightlamp ThemeTable
+---@field nightowl ThemeTable
+---@field nord ThemeTable
+---@field oceanic-light ThemeTable
+---@field oceanic-next ThemeTable
+---@field one_light ThemeTable
+---@field onedark ThemeTable
+---@field onenord ThemeTable
+---@field onenord_light ThemeTable
+---@field oxocarbon ThemeTable
+---@field palenight ThemeTable
+---@field pastelDark ThemeTable
+---@field pastelbeans ThemeTable
+---@field penumbra_dark ThemeTable
+---@field penumbra_light ThemeTable
+---@field radium ThemeTable
+---@field rosepine ThemeTable
+---@field rxyhn ThemeTable
+---@field solarized_dark ThemeTable
+---@field sweetpastel ThemeTable
+---@field tokyodark ThemeTable
+---@field tokyonight ThemeTable
+---@field tomorrow_night ThemeTable
+---@field tundra ThemeTable
+---@field vscode_dark ThemeTable
+---@field wombat ThemeTable
+---@field yoru ThemeTable

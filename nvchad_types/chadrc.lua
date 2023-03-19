@@ -13,7 +13,8 @@
 --- e.g. colorschemes, statusline themes, cmp themes, dashboard, some LSP ui related
 ---@class UIConfig
 --- List of highlights group to add.
---- Should be highlights that is not a part of base46 defeault integration
+--- Should be highlights that is not a part of base46 default integrations
+--- (The default is all hlgroup that can be found from `hl_override`)
 --- Example
 --- ```lua
 ---     hl_add = {
@@ -29,22 +30,22 @@
 ---     }
 --- ```
 --- see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
----@field hl_override HLTable
+---@field hl_override Base46HLGroupsList
 --- see https://github.com/NvChad/base46/tree/master/lua/base46/themes for the colors of each theme
----@field changed_themes table<ThemeName, ThemeTable>
+---@field changed_themes ChangedTheme
 --- A table with 2 strings, denoting the themes to toggle between.
 --- One of the 2 strings must be the value of `theme` field
 --- Example:
 --- ```lua
 ---     theme_toggle = { "onedark", "one_light", },
 --- ```
----@field theme_toggle {[1]: string, [2]: string}
+---@field theme_toggle ThemeName[]
 --- Enable transparency or not
 ---@field transparency boolean
 --- Theme to use.
 --- You can try out the theme by executing `:Telescope themes`
 --- see https://github.com/NvChad/base46/tree/master/lua/base46/themes
----@field theme string
+---@field theme ThemeName
 ---@field cmp NvCmpConfig
 ---@field telescope NvTelescopeConfig
 ---@field statusline NvStatusLineConfig
@@ -162,8 +163,8 @@
 ---@field c   table<string, '""'|false> Command-Line Mode keymaps to remove
 ---@field l   table<string, '""'|false> Insert + Command-Line + Lang-Arg Mode keymaps to remove
 ---@field t   table<string, '""'|false> Terminal Mode keymaps to remove
----@field "!" table<string, '""'|false> Insert + Command-Line Mode keymaps to remove
----@field ""  table<string, '""'|false> Normal, Visual and Operating-Pending Mode keymaps to remove
+---@field ['"!"'] table<string, '""'|false> Insert + Command-Line Mode keymaps to remove
+---@field ['""']  table<string, '""'|false> Normal, Visual and Operating-Pending Mode keymaps to remove
 
 ---@class KeymapsTable
 ---@field plugin boolean Whether this whole table will be loaded on startup or not
@@ -176,8 +177,8 @@
 ---@field c   table<string, KeymapConfig> Command-Line Mode keymaps
 ---@field l   table<string, KeymapConfig> Insert + Command-Line + Lang-Arg Mode keymaps
 ---@field t   table<string, KeymapConfig> Terminal Mode keymaps
----@field "!" table<string, KeymapConfig> Insert + Command-Line Mode keymaps
----@field ""  table<string, KeymapConfig> Normal, Visual and Operating-Pending Mode keymaps
+---@field ['"!"'] table<string, KeymapConfig> Insert + Command-Line Mode keymaps
+---@field ['""'] table<string, KeymapConfig> Normal, Visual and Operating-Pending Mode keymaps
 
 ---@class KeymapConfig
 ---@field [1] string|fun() A Vimscript string or a Lua function. `rhs` of the keymap

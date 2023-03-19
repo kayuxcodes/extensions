@@ -39,8 +39,6 @@
 
 ---@alias HLTable table<string, Base46HLGroups>
 
----@alias ThemeName string
-
 ---@alias Base30Colors
 ---| '"white"'
 ---| '"darker_black"'
