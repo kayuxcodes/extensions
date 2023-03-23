@@ -41,6 +41,17 @@ local function switcher()
     sorter = conf.generic_sorter(),
 
     attach_mappings = function(prompt_bufnr, map)
+      -- reload theme while typing
+      vim.api.nvim_create_autocmd("TextChangedI", {
+        buffer = prompt_bufnr,
+        callback = function()
+          if action_state.get_selected_entry() then
+            reload_theme(action_state.get_selected_entry()[1])
+          end
+        end,
+      })
+
+      -- reload theme on cycling
       map("i", "<C-n>", function()
         actions.move_selection_next(prompt_bufnr)
         reload_theme(action_state.get_selected_entry()[1])
@@ -51,10 +62,9 @@ local function switcher()
         reload_theme(action_state.get_selected_entry()[1])
       end)
 
+      ------------ save theme to chadrc on enter ----------------
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
-
-        ------------ save theme to chadrc ----------------
         local current_theme = require("core.utils").load_config().ui.theme
         require("nvchad").replace_word(current_theme, action_state.get_selected_entry()[1])
       end)
