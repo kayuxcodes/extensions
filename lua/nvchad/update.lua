@@ -171,6 +171,7 @@ return function()
       end
 
       vim.fn.jobstart({ "git", "pull" }, { silent = true, cwd = nvim_config })
+      vim.cmd "Lazy sync"
     end)
   end
 
