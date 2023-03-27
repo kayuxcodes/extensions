@@ -12,8 +12,6 @@ local function reload_theme(name)
   vim.api.nvim_exec_autocmds("User", { pattern = "NvChadThemeReload" })
 end
 
-local themes_list = require("nvchad").list_themes()
-
 local function switcher()
   local bufnr = vim.api.nvim_get_current_buf()
   local bufname = vim.api.nvim_buf_get_name(bufnr)
@@ -44,15 +42,14 @@ local function switcher()
 
     attach_mappings = function(prompt_bufnr, map)
       -- reload theme while typing
-      vim.api.nvim_create_autocmd("TextChangedI", {
-        buffer = prompt_bufnr,
-        callback = function()
-          if vim.tbl_contains(themes_list, action_state.get_selected_entry()[1]) then
+      vim.schedule(function()
+        vim.api.nvim_create_autocmd("TextChangedI", {
+          buffer = prompt_bufnr,
+          callback = function()
             reload_theme(action_state.get_selected_entry()[1])
-          end
-        end,
-      })
-
+          end,
+        })
+      end)
       -- reload theme on cycling
       map("i", "<C-n>", function()
         actions.move_selection_next(prompt_bufnr)
