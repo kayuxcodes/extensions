@@ -98,7 +98,7 @@
 ---     - `:h events`: Vim Events 
 ---     - `:h lsp-events`
 ---     - `:h diagnostics-events`
----@field event? string|string[]|fun(_: LazyPlugin, event: string[]): string[]
+---@field event? '"VeryLazy"'|string|string[]|fun(_: LazyPlugin, event: string[]): string[]
 
 --- Docs adopted from Lazy.nvim
 --- Check `:h lazy.nvim` for more information

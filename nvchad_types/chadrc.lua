@@ -32,6 +32,7 @@
 --- see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
 ---@field hl_override Base46HLGroupsList
 --- see https://github.com/NvChad/base46/tree/master/lua/base46/themes for the colors of each theme
+--- Also accept a special key `all` to change a base46 key to a specific color for all themes
 ---@field changed_themes ChangedTheme
 --- A table with 2 strings, denoting the themes to toggle between.
 --- One of the 2 strings must be the value of `theme` field
@@ -80,6 +81,8 @@
 --- List of modules that you overirde
 --- Check https://github.com/NvChad/ui/blob/main/lua/nvchad_ui/statusline/modules.lua for the list of modules
 ---@field overriden_modules fun(): table
+--- Maximum length for the progress messages section
+---@field lspprogress_len integer
 
 --- Options for NvChad Tabufline
 ---@class NvTabLineConfig
