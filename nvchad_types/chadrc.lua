@@ -94,6 +94,8 @@
 --- List of modules that you overirde
 --- Check https://github.com/NvChad/ui/blob/main/lua/nvchad_ui/tabufline/modules.lua for the list of modules
 ---@field overriden_modules fun(): table
+--- Show numbers on tabufline buffer tabs
+--- @field show_numbers boolean
 
 ---@class NvDashboardConfig
 --- Whether to open dashboard on opening nvim 
