@@ -9,20 +9,20 @@ local actions = require "telescope.actions"
 local make_entry = require "telescope.make_entry"
 local action_state = require "telescope.actions.state"
 
+local api = vim.api
+
 local function term_picker()
   local get_bufnrs = function()
-    local bufnrs = vim.api.nvim_list_bufs()
-
     return vim.tbl_filter(function(bufnr)
-      return vim.api.nvim_buf_get_option(bufnr, "buftype") == "terminal"
-    end, bufnrs)
+      return api.nvim_buf_get_option(bufnr, "buftype") == "terminal"
+    end, api.nvim_list_bufs())
   end
 
   local get_buffers = function()
     local buffers = {}
 
     for _, bufnr in ipairs(get_bufnrs()) do
-      local flag = bufnr == vim.fn.bufnr "" and "%" or (bufnr == vim.fn.bufnr "#" and "#" or " ")
+      local flag = (bufnr == vim.fn.bufnr "" and "%") or (bufnr == vim.fn.bufnr "#" and "#" or " ")
       local element = { bufnr = bufnr, flag = flag, info = vim.fn.getbufinfo(bufnr)[1] }
 
       table.insert(buffers, element)
@@ -31,9 +31,13 @@ local function term_picker()
     return buffers
   end
 
+  if #get_bufnrs() == 0 then
+    print "no terminal buffers are opened/hidden!"
+    return
+  end
+
   local opts = {}
   local max_bufnr = math.max(unpack(get_bufnrs()))
-
   opts.bufnr_width = #tostring(max_bufnr)
 
   -- our picker function: colors
@@ -50,7 +54,11 @@ local function term_picker()
       actions.select_default:replace(function()
         local entry = action_state.get_selected_entry()
         actions.close(prompt_bufnr)
-        require("nvterm.terminal").get_and_show("buf", entry.bufnr)
+
+        -- open term only if its window isnt opened
+        if not vim.tbl_contains(api.nvim_list_wins(), vim.fn.bufwinid(entry.bufnr)) then
+          require("nvterm.terminal").get_and_show("buf", entry.bufnr)
+        end
       end)
       return true
     end,
