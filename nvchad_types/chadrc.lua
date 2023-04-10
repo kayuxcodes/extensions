@@ -83,6 +83,8 @@
 ---@field overriden_modules fun(): table
 --- Maximum length for the progress messages section
 ---@field lspprogress_len integer
+--- Whether to enable LSP Semantic Tokens highlighting
+---@field lsp_semantic_tokens boolean
 
 --- Options for NvChad Tabufline
 ---@class NvTabLineConfig
