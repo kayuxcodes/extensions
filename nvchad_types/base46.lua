@@ -4,7 +4,7 @@
 ---@class APISetHighlightOpts
 ---@field fg string Color of foreground
 ---@field bg string color of background
----@field sp string Read `:h guisp`
+---@field sp string Color of underlines. Read more at `:h guisp`. 
 ---@field blend number integer between 0 and 100, level of opacity
 ---@field bold boolean bolded text or not
 ---@field standout boolean decorations
@@ -17,8 +17,10 @@
 ---@field italic boolean italicized text
 ---@field reverse boolean 
 ---@field nocombine boolean
----@field link string name of another highlight group to link to, see |hi-link|
----@field default boolean Don't override existing definition
+--- name of another highlight group to link to, see |hi-link|. 
+--- To unlink a hlgroup, do `link = ""`
+---@field link string 
+---@field default boolean Don't override existing definition if true
 ---@field ctermfg number Sets foreground of cterm color
 ---@field ctermbg number Sets background of cterm color
 ---@field cterm string comma-separated list of cterm opts. For more information, check `:h highlight-args`
