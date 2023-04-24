@@ -27,6 +27,8 @@ local function screen()
     "",
     "  If you dont see any syntax highlighting not working, install a tsparser for it",
     "",
+    "  Check the default mappings by pressing space + ch or NvCheatsheet command",
+    "",
     "Now quit nvim!",
   }
 
