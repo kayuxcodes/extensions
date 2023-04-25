@@ -103,6 +103,8 @@
 --- Docs adopted from Lazy.nvim
 --- Check `:h lazy.nvim` for more information
 --- Check lua/plugins directory for the default config of plugins
+--- By default, all NvChad plugins has `lazy = true`, which means it will not be loaded automatically 
+--- unless you specify an event for it to load, or to set `lazy = false` for it to load on startup
 ---@alias NvPluginSpec string|LazyPluginSpecExtra|NvImportSpec|NvPluginSpec[]
 
 ---Check `:h vim.keymap.set()` for more information

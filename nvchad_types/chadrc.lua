@@ -54,6 +54,10 @@
 ---@field nvdash NvDashboardConfig
 ---@field cheatsheet NvCheatsheetConfig
 ---@field lsp NvLspConfig
+--- Whether to enable LSP Semantic Tokens highlighting
+---@field lsp_semantic_tokens boolean
+--- List of extras themes for other plugins not in NvChad that you want to compile
+---@field extended_integrations ExtendedModules[]
 
 --- Options for stylings of nvim-cmp 
 ---@class NvCmpConfig
@@ -83,8 +87,6 @@
 ---@field overriden_modules fun(): table
 --- Maximum length for the progress messages section
 ---@field lspprogress_len integer
---- Whether to enable LSP Semantic Tokens highlighting
----@field lsp_semantic_tokens boolean
 
 --- Options for NvChad Tabufline
 ---@class NvTabLineConfig
