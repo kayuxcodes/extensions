@@ -17,6 +17,10 @@
 ---@field import string
 
 ---@class LazyPluginSpecExtra: LazyPluginSpec
+--- Specify the plugin to load when opening a file with one of the specified filetypes
+---@field ft? string|string[]|fun(_: LazyPlugin, ft: string[]):string[] 
+--- Specify the plugin to load when one of the specified commands are called
+---@field cmd string|string[]|fun(_: LazyPlugin, ft: string[]): string[]
 --- Specify some sequence of keybinds that will load this plugin
 ---     - If a function, then the second argument of the function are the list of key sequences that defined the loading of this plugin by NvChad
 ---         - The first argument is reserved for internal use, it should not be used under normal circumstances
@@ -99,6 +103,12 @@
 ---     - `:h lsp-events`
 ---     - `:h diagnostics-events`
 ---@field event? '"VeryLazy"'|string|string[]|fun(_: LazyPlugin, event: string[]): string[]
+--- Whether to load a plugin by default on opening Neovim or not
+--- By default, all NvChad plugins have `lazy = true`, meaning it will not be loaded unless
+---   - the module related to a plugin is called
+---   - Have either `dependencies`, `keys`, `ft`, `event` set
+---   - Have `lazy` to be `false` instead of `true`
+---@field lazy boolean
 
 --- Docs adopted from Lazy.nvim
 --- Check `:h lazy.nvim` for more information
