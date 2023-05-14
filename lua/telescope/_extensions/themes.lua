@@ -46,7 +46,9 @@ local function switcher()
         vim.api.nvim_create_autocmd("TextChangedI", {
           buffer = prompt_bufnr,
           callback = function()
-            reload_theme(action_state.get_selected_entry()[1])
+            if action_state.get_selected_entry() then
+              reload_theme(action_state.get_selected_entry()[1])
+            end
           end,
         })
       end)
@@ -63,9 +65,11 @@ local function switcher()
 
       ------------ save theme to chadrc on enter ----------------
       actions.select_default:replace(function()
-        actions.close(prompt_bufnr)
-        local current_theme = require("core.utils").load_config().ui.theme
-        require("nvchad").replace_word(current_theme, action_state.get_selected_entry()[1])
+        if action_state.get_selected_entry() then
+          actions.close(prompt_bufnr)
+          local current_theme = require("core.utils").load_config().ui.theme
+          require("nvchad").replace_word(current_theme, action_state.get_selected_entry()[1])
+        end
       end)
       return true
     end,

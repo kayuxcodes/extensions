@@ -8,11 +8,13 @@ M.list_themes = function()
 
   if custom_themes and custom_themes.type == "directory" then
     local themes_tb = fn.readdir(fn.stdpath "config" .. "/lua/custom/themes")
-    default_themes = vim.tbl_deep_extend("force", default_themes, themes_tb)
+    for _, value in ipairs(themes_tb) do
+      default_themes[#default_themes + 1] = value
+    end
   end
 
   for index, theme in ipairs(default_themes) do
-    default_themes[index] = fn.fnamemodify(fn.fnamemodify(theme, ":t"), ":r")
+    default_themes[index] = theme:match "(.+)%..+"
   end
 
   return default_themes
