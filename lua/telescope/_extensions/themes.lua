@@ -14,7 +14,6 @@ end
 
 local function switcher()
   local bufnr = vim.api.nvim_get_current_buf()
-  local bufname = vim.api.nvim_buf_get_name(bufnr)
 
   -- show current buffer content in previewer
   local previewer = previewers.new_buffer_previewer {
@@ -24,7 +23,7 @@ local function switcher()
       vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, lines)
 
       -- add syntax highlighting in previewer
-      local ft = require("plenary.filetype").detect(bufname) or "diff"
+      local ft = (vim.filetype.match { buf = bufnr } or "diff"):match "%w+"
       require("telescope.previewers.utils").highlighter(self.state.bufnr, ft)
 
       reload_theme(entry.value)
