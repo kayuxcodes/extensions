@@ -17,9 +17,10 @@
 ---@field italic boolean italicized text
 ---@field reverse boolean 
 ---@field nocombine boolean
---- name of another highlight group to link to, see |hi-link|. 
---- To unlink a hlgroup, do `link = ""`
----@field link string 
+--- name of another highlight group to link to, see `:h hi-link` for more information. 
+--- When this is not null, all attributes will be overriden if the linked group has such attribute defined
+--- To unlink a hlgroup, do `link = "NONE"`
+---@field link string|'"NONE"'
 ---@field default boolean Don't override existing definition if true
 ---@field ctermfg number Sets foreground of cterm color
 ---@field ctermbg number Sets background of cterm color
