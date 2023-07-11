@@ -51,7 +51,7 @@ return function()
     vim.schedule(function()
       if #git_outputs == 0 then
         -- restart spinner animation
-        if index == #spinners then
+        if index >= #spinners then
           index = 1
         end
 
