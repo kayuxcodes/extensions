@@ -37,30 +37,25 @@ return function()
 
   -- update spinner icon until git_outputs is empty
   -- use a timer
-  local index = 1
+  local index = 0
 
   local timer = vim.loop.new_timer()
 
   timer:start(0, 100, function()
-    index = index + 1
-
     if #git_outputs ~= 0 then
       timer:stop()
     end
 
     vim.schedule(function()
       if #git_outputs == 0 then
-        -- restart spinner animation
-        if index >= #spinners then
-          index = 1
-        end
-
-        content[2] = header .. " " .. spinners[index] .. "  "
+        content[2] = header .. " " .. spinners[index % #spinners + 1] .. "  "
         vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
         api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterTitle", 1, 0, #header)
         api.nvim_buf_add_highlight(buf, nvUpdater, "nvUpdaterProgress", 1, #header, -1)
       end
     end)
+
+    index = index + 1
   end)
 
   local git_fetch_err = false
