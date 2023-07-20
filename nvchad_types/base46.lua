@@ -149,7 +149,7 @@
 ---@field teal string Dev/CMP Icons
 ---@field orange string Diff Mod
 ---@field cyan string Dev/CMP Icons
----@field statusline_bg string
+---@field statusline_bg string Statusline
 ---@field lightbg string Statusline Components
 ---@field pmenu_bg string Pop-up Menu Selection
 ---@field folder_bg string Nvimtree Items
