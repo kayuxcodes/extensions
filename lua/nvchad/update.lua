@@ -109,9 +109,8 @@ return function()
 
       vim.fn.jobstart({ "git", "pull" }, { silent = true, cwd = nvim_config })
       require("lazy").sync()
-      require("lazy").load({ plugins = { "mason.nvim", "nvim-treesitter" } })
+      require("lazy").load({ plugins = { "mason.nvim" } })
       vim.cmd("MasonUpdate")
-      vim.cmd("TSUpdate")
     end)
   end
 
