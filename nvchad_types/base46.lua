@@ -31,8 +31,10 @@
 --- if fg is "NONE", remove the foreground color
 ---@field fg string|Base30Colors|'"NONE"'
 --- Color name or Hex code of background
+---@field fg string|table|Base30Colors|'"NONE"'
+--- Color of background
 --- if fg is "NONE", remove the background color
----@field bg string|Base30Colors|'"NONE"' color of background
+---@field bg string|table|Base30Colors|'"NONE"' color of background
 --- Used for underline colors
 --- - If sp is `NONE`, use transparent color for special
 --- - If sp is `bg` or `background`, use normal background color
