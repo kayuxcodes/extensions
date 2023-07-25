@@ -176,7 +176,7 @@
 ---@field ['""']?  table<string, '""'|false> Normal, Visual and Operating-Pending Mode keymaps to remove
 
 ---@class KeymapsTable
----@field plugin boolean Whether this whole table will be loaded on startup or not
+---@field plugin? boolean Whether this whole table will be loaded on startup or not
 ---@field n?   table<string, KeymapConfig> Normal Mode keymaps
 ---@field x?   table<string, KeymapConfig> Visual Mode keymaps
 ---@field s?   table<string, KeymapConfig> Select Mode keymaps
