@@ -82,9 +82,10 @@
 --- Separator style for NvChad Statusline
 ---     - Only when the *theme* is `minimal`, "round" or "block" will be having effect
 ---@field separator_style '"default"'|'"round"'|'"block"'
---- List of modules that you overirde
+--- Function that overirde the modules
+--- Try to `vim.print(table.concat(modules))` to see what they are
 --- Check https://github.com/NvChad/ui/tree/main/lua/nvchad_ui/statusline for the modules of each statusline theme
----@field overriden_modules fun(): table
+---@field overriden_modules fun(modules: table)
 --- Maximum length for the progress messages section
 ---@field lspprogress_len integer
 
@@ -95,9 +96,10 @@
 --- If false, load tabufline on startup
 --- If true, load tabufline when there is at least 2 buffers opened
 ---@field lazyload boolean
---- List of modules that you overirde
+--- Function that overirde the modules
+--- Try to `vim.print(table.concat(modules))` to see what they are
 --- Check https://github.com/NvChad/ui/blob/v2.0/lua/nvchad_ui/tabufline/modules.lua for the list of modules
----@field overriden_modules fun(): table
+---@field overriden_modules fun(modules: table)
 --- Show numbers on tabufline buffer tabs
 --- @field show_numbers boolean
 
