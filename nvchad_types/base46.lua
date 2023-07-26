@@ -5,7 +5,10 @@
 ---@field fg string Color name or Hex code of foreground
 ---@field bg string Color name or Hex code of background
 ---@field sp string Color of underlines. Read more at `:h guisp`.
----@field blend number integer between 0 and 100, level of opacity
+--- integer between 0 and 100, level of opacity
+--- Only applied for floating windows, popupmenu
+--- Check `:h highlight-blend` for more information
+---@field blend integer 
 ---@field bold boolean bolded text or not
 ---@field standout boolean decorations
 ---@field underline boolean decorations
