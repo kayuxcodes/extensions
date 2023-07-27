@@ -34,7 +34,6 @@
 --- if fg is "NONE", remove the foreground color
 ---@field fg string|Base30Colors|'"NONE"'
 --- Color name or Hex code of background
----@field fg string|table|Base30Colors|'"NONE"'
 --- Color of background
 --- if fg is "NONE", remove the background color
 ---@field bg string|table|Base30Colors|'"NONE"' color of background
