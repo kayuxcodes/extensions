@@ -14,13 +14,13 @@
 --- Then all lua files that is under lua/foo/bar will be sourced, such as:
 ---     - `lua/foo/bar/baz.lua`
 ---     - `lua/foo/bar/baz/someLuaFile.lua`
----@field import string
+---@field import? string
 
 ---@class LazyPluginSpecExtra: LazyPluginSpec
 --- Specify the plugin to load when opening a file with one of the specified filetypes
 ---@field ft? string|string[]|fun(_: LazyPlugin, ft: string[]):string[] 
 --- Specify the plugin to load when one of the specified commands are called
----@field cmd string|string[]|fun(_: LazyPlugin, ft: string[]): string[]
+---@field cmd? string|string[]|fun(_: LazyPlugin, ft: string[]): string[]
 --- Specify some sequence of keybinds that will load this plugin
 ---     - If a function, then the second argument of the function are the list of key sequences that defined the loading of this plugin by NvChad
 ---         - The first argument is reserved for internal use, it should not be used under normal circumstances
@@ -32,16 +32,16 @@
 ---       {"foo", "bar", desc = "Some keymaps", mode = {"n", "i"}}
 ---     }
 --- ```
----@field keys string|string[]|LazyKeymaps[]|fun(_:LazyPlugin, keys:string[]):(string|LazyKeymaps)[] 
+---@field keys? string|string[]|LazyKeymaps[]|fun(_:LazyPlugin, keys:string[]):(string|LazyKeymaps)[] 
 --- Will be executed when this plugin is loaded. 
 --- - If `config` is `true`, then `require("plugin").setup(opts)` will be run.  
 --- - If a function, then `opts` argument will be the table from `opts` field
----@field config fun(_:LazyPlugin, opts:table)|true  
+---@field config? fun(_:LazyPlugin, opts:table)|true  
 --- Config for a plugin
 --- Read the docs of that plugin for more info. 
 --- If `opts` is a function, then the second argument `opts` is the default config defined by NvChad
 --- If `opts` is defined, then `config` will be true unless defined by user
----@field opts table|fun(_:LazyPlugin, opts:table):table?
+---@field opts? table|fun(_:LazyPlugin, opts:table):table?
 --- List of plugin names or plugin specs that should be loaded when the plugin loads. 
 --- If you only specify the name, it will be installed and loaded with other(s) dependent plugins
 --- Example of how the dependencies table could be
@@ -108,7 +108,7 @@
 ---   - the module related to a plugin is called
 ---   - Have either `dependencies`, `keys`, `ft`, `event` set
 ---   - Have `lazy` to be `false` instead of `true`
----@field lazy boolean
+---@field lazy? boolean
 
 --- Docs adopted from Lazy.nvim
 --- Check `:h lazy.nvim` for more information
@@ -126,5 +126,5 @@
 ---@field noremap? boolean
 ---@field remap? boolean
 ---@field expr? boolean
----@field id string
+---@field id? string
 

@@ -1,13 +1,13 @@
 ---@meta
 
 ---@class ChadrcConfig
----@field   ui UIConfig
----@field   mappings MappingsTable
+---@field ui? UIConfig
+---@field mappings? MappingsTable
 --- The module to be imported and merged with the default plugin settings
----@field   plugins string
+---@field plugins? string
 --- Lazy.nvim setup opts
 --- Check `:h lazy.nvim-configuration` for the exact options
----@field   lazy_nvim LazyConfig
+---@field lazy_nvim? LazyConfig
 
 --- UI related configuration
 --- e.g. colorschemes, statusline themes, cmp themes, dashboard, some LSP ui related
@@ -22,7 +22,7 @@
 ---     }
 --- ```
 --- see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
----@field hl_add HLTable
+---@field hl_add? HLTable
 --- List of highlight groups that is part of base46 default integration that you want to change
 --- ```lua
 ---     hl_overrde = {
@@ -30,91 +30,91 @@
 ---     }
 --- ```
 --- see https://github.com/NvChad/base46/tree/master/lua/base46/integrations
----@field hl_override Base46HLGroupsList
+---@field hl_override? Base46HLGroupsList
 --- see https://github.com/NvChad/base46/tree/master/lua/base46/themes for the colors of each theme
 --- Also accept a special key `all` to change a base46 key to a specific color for all themes
----@field changed_themes ChangedTheme
+---@field changed_themes? ChangedTheme
 --- A table with 2 strings, denoting the themes to toggle between.
 --- One of the 2 strings must be the value of `theme` field
 --- Example:
 --- ```lua
 ---     theme_toggle = { "onedark", "one_light", },
 --- ```
----@field theme_toggle ThemeName[]
+---@field theme_toggle? ThemeName[]
 --- Enable transparency or not
----@field transparency boolean
+---@field transparency? boolean
 --- Theme to use.
 --- You can try out the theme by executing `:Telescope themes`
 --- see https://github.com/NvChad/base46/tree/master/lua/base46/themes
----@field theme ThemeName
----@field cmp NvCmpConfig
----@field telescope NvTelescopeConfig
----@field statusline NvStatusLineConfig
----@field tabufline NvTabLineConfig
----@field nvdash NvDashboardConfig
----@field cheatsheet NvCheatsheetConfig
----@field lsp NvLspConfig
+---@field theme? ThemeName
+---@field cmp? NvCmpConfig
+---@field telescope? NvTelescopeConfig
+---@field statusline? NvStatusLineConfig
+---@field tabufline? NvTabLineConfig
+---@field nvdash? NvDashboardConfig
+---@field cheatsheet? NvCheatsheetConfig
+---@field lsp? NvLspConfig
 --- Whether to enable LSP Semantic Tokens highlighting
----@field lsp_semantic_tokens boolean
+---@field lsp_semantic_tokens? boolean
 --- List of extras themes for other plugins not in NvChad that you want to compile
----@field extended_integrations ExtendedModules[]
+---@field extended_integrations? ExtendedModules[]
 
 --- Options for stylings of nvim-cmp 
 ---@class NvCmpConfig
 --- Whether to add colors to icons in nvim-cmp popup menu
----@field icons boolean
+---@field icons? boolean
 --- Whether to also have the lsp kind highlighted with the icons as well or not
----@field lspkind_text boolean
+---@field lspkind_text? boolean
 --- nvim-cmp style
----@field style '"default"'|'"flat_light"'|'"flat_dark"'|'"atom"'|'"atom_colored"'
+---@field style? '"default"'|'"flat_light"'|'"flat_dark"'|'"atom"'|'"atom_colored"'
 --- Only has effects when the style is `default`
----@field border_color string|Base30Colors
+---@field border_color? string|Base30Colors
 --- Whether to have more vibrant color for the currently selected entry in the popup menu
----@field selected_item_bg "colored"|"simple"
+---@field selected_item_bg? "colored"|"simple"
 
 ---@class NvTelescopeConfig
 --- Telescope style
----@field style '"borderless"'|'"bordered"'
+---@field style? '"borderless"'|'"bordered"'
 
 ---@class NvStatusLineConfig
 --- statusline theme
----@field theme '"default"'|'"vscode"'|'"vscode_colored"'|'"minimal"'
+---@field theme? '"default"'|'"vscode"'|'"vscode_colored"'|'"minimal"'
 --- Separator style for NvChad Statusline
 ---     - Only when the *theme* is `minimal`, "round" or "block" will be having effect
----@field separator_style '"default"'|'"round"'|'"block"'
+---@field separator_style? '"default"'|'"round"'|'"block"'
 --- Function that overirde the modules
 --- Try to `vim.print(table.concat(modules))` to see what they are
 --- Check https://github.com/NvChad/ui/tree/main/lua/nvchad_ui/statusline for the modules of each statusline theme
----@field overriden_modules fun(modules: table)
+---@field overriden_modules? fun(modules: table)
 --- Maximum length for the progress messages section
----@field lspprogress_len integer
+---@field lspprogress_len? integer
 
 --- Options for NvChad Tabufline
 ---@class NvTabLineConfig
 --- Whether to use/load tabufline or not
----@field enabled boolean
+---@field enabled? boolean
 --- If false, load tabufline on startup
 --- If true, load tabufline when there is at least 2 buffers opened
----@field lazyload boolean
+---@field lazyload? boolean
 --- Function that overirde the modules
 --- Try to `vim.print(table.concat(modules))` to see what they are
 --- Check https://github.com/NvChad/ui/blob/v2.0/lua/nvchad_ui/tabufline/modules.lua for the list of modules
----@field overriden_modules fun(modules: table)
+---@field overriden_modules? fun(modules: table)
 --- Show numbers on tabufline buffer tabs
---- @field show_numbers boolean
+--- @field show_numbers? boolean
 
 ---@class NvDashboardConfig
 --- Whether to open dashboard on opening nvim 
----@field load_on_startup boolean
+---@field load_on_startup? boolean
 --- Your ascii art
 --- Each string is one line
----@field header string[],
+---@field header? string[],
 --- List of buttons to show on the dashboard
----@field buttons NvDashButtonConfig[]
+---@field buttons? NvDashButtonConfig[]
 
 ---@class NvCheatsheetConfig
 --- Cheatsheet theme
----@field theme '"grid"'|'"simple"'
+---@field theme? '"grid"'|'"simple"'
 
 ---@class NvDashButtonConfig
 ---@field [1] string Description for the button
@@ -123,11 +123,11 @@
 
 ---Options for NvChad/ui lsp configuration
 ---@class NvLspConfig 
----@field signature NvLspSignatureConfig Opts for showing function signatures as you type
+---@field signature? NvLspSignatureConfig Opts for showing function signatures as you type
 
 ---@class NvLspSignatureConfig
----@field disabled boolean Whether to disable this feature
----@field silent boolean Whether to hide `No signature help available` message from appearing
+---@field disabled? boolean Whether to disable this feature
+---@field silent? boolean Whether to hide `No signature help available` message from appearing
 
 --- A table of mappings
 ---     - `disabled` is used to define the keymaps that you don't want to keep
@@ -194,4 +194,4 @@
 ---@class KeymapConfig
 ---@field [1] string|fun() A Vimscript string or a Lua function. `rhs` of the keymap
 ---@field [2] string Description for the keymap
----@field opts NvKeymapOpts? List of additional options for the keymap
+---@field opts? NvKeymapOpts? List of additional options for the keymap
